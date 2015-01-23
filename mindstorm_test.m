@@ -1,3 +1,8 @@
+%If this file does not work, it is unlikely any of the other code will
+%Use it to test your set up before working on code
+%For it to work properly make sure that RWTHMindstormsNXT and
+%RWTHMindstormsNXT/Tools are in your path
+
 h = COM_OpenNXT();
 COM_SetDefaultNXT(h);
 
