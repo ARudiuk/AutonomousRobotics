@@ -18,14 +18,10 @@ while(KEEP_GOING_BUD == true)
     found = false;
     light = GetLight(SENSOR_3)
     if(light>lost_threshold) 
-        found = arc_search(30,10,bothWheels,lost_threshold,50);
+        found = arc_search(0,30,10,bothWheels,lost_threshold,50);
         if( found == false)
             while(found == false)
-                found = three_arc_search(distance_step_size,30,10,bothWheels,lost_threshold,50);
-                if found == false
-                    move_forward.SendToNXT();
-                    move_forward.WaitFor();
-                end
+                found = arc_search(distance_step_size,30,10,bothWheels,lost_threshold,50);
             end
         end
     else
