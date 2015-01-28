@@ -5,7 +5,7 @@ function [found] = arc_search(angle_limit, angle_step_size, bothWheels, light_th
     [turn3,turn4] = inplace_turn(bothWheels(1),bothWheels(2),power,-angle_step_size);
     turn1.ResetPosition();
     turn2.ResetPosition();
-    i = 0;
+    i = angle_step_size;
     while i<=angle_limit && found == false
         i = i + angle_step_size;
         turn1.SendToNXT();
@@ -19,7 +19,7 @@ function [found] = arc_search(angle_limit, angle_step_size, bothWheels, light_th
     end
     if found == false 
         reset_turn(turn1,turn2,power)
-        i = 0;
+        i = -angle_step_size;
         while i>=-angle_limit && found == false
             i = i - angle_step_size;
             turn3.SendToNXT();
