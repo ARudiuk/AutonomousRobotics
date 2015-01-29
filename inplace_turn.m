@@ -1,4 +1,4 @@
-function [turn1,turn2] = inplace_turn(leftWheel,rightWheel,power,angle)
+function [] = inplace_turn(leftWheel,rightWheel,power,angle,found_test)
     if angle<0
         power = -power;
     end
@@ -16,4 +16,12 @@ function [turn1,turn2] = inplace_turn(leftWheel,rightWheel,power,angle)
     turn2.SmoothStart = true;
     turn2.SpeedRegulation = false;
     turn2.ActionAtTachoLimit = 'Holdbrake'; %Holdbrake, brake, or coast
+    turn1.ResetPosition();
+    turn2.ResetPosition();
+    turn1.SendToNXT();
+    turn2.SendToNXT();
+    while(found_test()==false && turn1.WaitFor(0.1))        
+    end
+    turn1.Stop('brake');
+    turn2.Stop('brake');  
 end
