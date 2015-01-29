@@ -1,5 +1,6 @@
 %Wheels are 56mm
 %between wheels is 11.5cm
+%return an object for moving forward a certain distance
 function [move] = straight_move(bothWheels,power,distance)
     move = NXTMotor();
     move.Port = bothWheels;

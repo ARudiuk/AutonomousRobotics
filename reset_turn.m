@@ -1,3 +1,6 @@
+%To make sure we return to the origin after turning as accuratly as
+%possible this function turns the wheels the same amount of times as they
+%were turned to get where the robot currently is.
 function [] = reset_turn(turn1,turn2,power)    
     data1 = turn1.ReadFromNXT();
     data2 = turn2.ReadFromNXT(); 

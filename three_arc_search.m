@@ -1,4 +1,6 @@
+%Perform an arc search ahead of the robot
 function [found] = three_arc_search(distance_limit, angle_limit, angle_step_size, bothWheels, light_threshold,power)
+%Set up movement methods
     move_forward = straight_move(bothWheels,50,distance_limit);
     move_backward = move_forward;
     move_backward.Power = -move_backward.Power;
@@ -14,10 +16,13 @@ function [found] = three_arc_search(distance_limit, angle_limit, angle_step_size
     %move forward
     move_forward.SendToNXT();
     move_forward.WaitFor();
+    %peform an arc search
     found = arc_search(angle_limit, angle_step_size, bothWheels, light_threshold,power);
+    %if we found it stop the searching
     if found == true
         return
     end
+    %repeat previous steps after moving backwards
     move_backward.SendToNXT();
     move_backward.WaitFor();
     turn3.SendToNXT();

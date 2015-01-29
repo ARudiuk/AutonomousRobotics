@@ -1,3 +1,4 @@
+%return an object for rotating in place
 function [turn1,turn2] = inplace_turn(leftWheel,rightWheel,power,angle)
     if angle<0
         power = -power;
