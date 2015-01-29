@@ -1,3 +1,4 @@
+%Ignore this
 mindstorm_init();
 OpenUltrasonic(SENSOR_4);
 distance = GetUltrasonic(SENSOR_4)
