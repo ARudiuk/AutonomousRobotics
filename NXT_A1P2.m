@@ -12,7 +12,7 @@ resolution = 5;
 %Run wall tracking algorithm
 while 1;
     
-    for i=0:1;
+    for i=0:10;
     
         %Acquire the actual distance between the robot and the wall
         distance = GetUltrasonic(SENSOR_4);
@@ -99,6 +99,7 @@ while 1;
         mC.TachoLimit = 10;
         mC.SendToNXT();
         mC.WaitFor();
+        pause(0.05);
         distancenew = GetUltrasonic(SENSOR_4);
         if distancenew < distance
             distance = distancenew;
@@ -110,6 +111,7 @@ while 1;
     mC.SendToNXT();
     mC.WaitFor();
     turnamt = EndPos.Position - StartPos.Position;
+    turnamt = turnamt*1.85;
     if turnamt < 0;
         mA.Power = - 30;
         mA.TachoLimit = round(abs(turnamt));
