@@ -36,7 +36,7 @@ while(KEEP_GOING_BUD == true)
         else%If we were lost in the last state search ahead in an arc        
             three_arc_search(distance_step_size,30,bothWheels,50, found_test);
             if found_test() == false%Move forward if not found
-                straight_move(bothWheels,30,distance_step_size,found_test);                      
+                straight_move(bothWheels,80,distance_step_size,found_test);                      
             end
         end        
     else %If we are on the line move straight ahead until we lose the line
