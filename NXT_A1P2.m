@@ -12,7 +12,7 @@ resolution = 5;
 %Run wall tracking algorithm
 while 1;
     
-    for i=0:10;
+    for i=0:100;
     
         %Acquire the actual distance between the robot and the wall
         distance = GetUltrasonic(SENSOR_4);
