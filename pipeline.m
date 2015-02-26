@@ -7,7 +7,7 @@ leftWheel   = MOTOR_B;
 rightWheel  = MOTOR_A; 
 bothWheels = [rightWheel,leftWheel];
 %Set up movement constant
-distance_step_size = 30;
+distance_step_size = 60;
 %Set up sensor Constants
 OpenLight(SENSOR_3, 'ACTIVE'); % have to specify mode, ACTIVE or INACTIVE
 lost_threshold = 500;%values less than this mean we are off the pipe completely
