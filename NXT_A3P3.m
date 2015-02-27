@@ -1,5 +1,5 @@
-%This code runs the second problem of assignment 2, implementing an
-%open-loop controller
+%This code runs the third problem of assignment 2, implementing a
+%closed-loop controller
 
 %Initialize the brick, returns motor objects
 [mA, mB, mAB, mC] = NXT_init;
@@ -13,11 +13,11 @@ FudgeFactor = 1;    %Turning fudge factor
 %FudgeFactor = 1 means no FF is needed.
 
 %Assign a matrix of target locations <x,y> in meters
-Target = [0.5,0;0.5,0;0.5,0;0.5,0];    %0.5X0.5 m square
-%Target = [0.433,0.25; 0.433,0.25; 0.433,0.25; 0.433,0.25; 0.433,0.25; 0.433,0.25];
+%Target = [0.5,0;0.5,0;0.5,0;0.5,0];    %0.5X0.5 m square
+Target = [0.433,0.25; 0.433,0.25; 0.433,0.25; 0.433,0.25; 0.433,0.25; 0.433,0.25];
 
-for i=1:4
-    OL_Target(Target(i,:), l, r, mA, mB, mAB, FudgeFactor);
+for i=1:6
+    CL_Target(Target(i,:), l, r, mA, mB, mAB, FudgeFactor);
 end
 
 COM_CloseNXT(COM_GetDefaultNXT());
