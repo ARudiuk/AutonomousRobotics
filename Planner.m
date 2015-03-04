@@ -7,11 +7,11 @@ mA = NXTMotor('A', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'S
 mB = NXTMotor('B', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
 mAB = NXTMotor('AB', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
 %Set coordinate points the robot wants to reach
-goals = generate_polygon(4,0.2);
+goals = generate_polygon(4,0.24);
 position_x = goals(end,1);
 position_y = goals(end,2);
 %theta is the current angle in radians
-theta = 0;
+theta = 3*pi/4;
 %l is the distance between the wheels halved
 l = 0.055;
 %r is the radiaus of the wheels
@@ -24,8 +24,8 @@ while(~isempty(goals))
     dx = goal_x - position_x;
     dy = goal_y - position_y;
     rho = sqrt((dx)^2+(dy)^2);
-    alpha = -theta+atan2(dy,dx);
-    Sgn = sign(alpha);
+    alpha = -theta+atan2(dy,dx)
+    Sgn = sign(alpha)
     if abs(alpha) > pi
         alpha = 2*pi - abs(alpha);
         alpha = -Sgn*alpha;
