@@ -63,7 +63,7 @@ function [bump,map] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,l)
         distmin2 = distmin1;
         distmin1 = distance;    
 
-        if toc >= 1 && i > pastnum
+        if toc >= 3 && i > pastnum
             drift = sqrt((map(i-pastnum,1)-map(i-pastnum,3))^2+(map(i-pastnum,2)-map(i-pastnum,4))^2)-sqrt((map(i,1)-map(i,3))^2+(map(i,2)-map(i,4))^2)
              mA.ResetPosition();
              mB.ResetPosition();   
@@ -72,12 +72,14 @@ function [bump,map] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,l)
                 mB.TachoLimit = TurnTachLimit;
                 mA.Power = AdjPwr;
                 mB.Power = -AdjPwr;
+                mA
+                mB
                 mA.SendToNXT();
                 mB.SendToNXT();
+                mA.ReadFromNXT()
+                mB.ReadFromNXT()
                 mA.WaitFor(0.5);
                 mB.WaitFor(0.5);
-                mA.Stop('brake');
-                mB.Stop('brake');
             end
 
             if drift < -Threshhold                
@@ -85,12 +87,14 @@ function [bump,map] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,l)
                 mB.TachoLimit = TurnTachLimit;
                 mA.Power = -AdjPwr;
                 mB.Power = AdjPwr;
+                mA
+                mB
                 mA.SendToNXT();
-                mB.SendToNXT();
+                mB.SendToNXT();                
+                mA.ReadFromNXT()
+                mB.ReadFromNXT()
                 mA.WaitFor(0.5);
                 mB.WaitFor(0.5);
-                mA.Stop('brake');
-                mB.Stop('brake');
             end
             tic;
         end
