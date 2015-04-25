@@ -1,7 +1,8 @@
 %This code runs the second problem of assignment 2, implementing an
 %open-loop controller
 
-NXT_init_bluetooth
+%Initialize bluetooth connection
+NXT_init_bluetooth;
 
 %Initialize the brick, returns motor objects
 [mA, mB, mAB, mC] = NXT_init;
