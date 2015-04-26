@@ -4,7 +4,7 @@
 %make a small adjustment in heading to reallign yourself
 %continue until your bump sensor is triggered
 
-function [bump,map,map2,i] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,l,i)
+function [bump,map] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,l)
     FwdPower = 30;
     bump = 0;
     location = position;
@@ -14,11 +14,8 @@ function [bump,map,map2,i] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,
     distmin1 = dis_from_wall;
     distmin2 = dis_from_wall;
     distmin3 = dis_from_wall;
-    
-    dist2min1 = dis_from_wall;
-    dist2min2 = dis_from_wall;
-    dist2min3 = dis_from_wall;
-    
+
+    i = 1;
     AdjPwr = 70;
     TurnTachLimit = 90;
     Threshhold = 5;
@@ -29,12 +26,10 @@ function [bump,map,map2,i] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,
 
     while bump == 0
 
-        distance = ultrasonic_measurement();
-        distance2 = ultrasonic_forward_measurement();
+        distance = ultrasonic_measurement();    
 
         avg_distance = 0.25*(distmin3 + distmin2 + distmin1 + distance);
-        avg_distance2 = 0.25*(dist2min3 +dist2min2 +dist2min1 + distance2);
-        
+
         mAB.Power = FwdPower;
         mAB.SendToNXT();
 
@@ -57,13 +52,7 @@ function [bump,map,map2,i] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,
         sensor(1) = location(1) + avg_distance*cos(heading - pi/2);
         sensor(2) = location(2) + avg_distance*sin(heading - pi/2);
 
-        sensor2(1) = location(1) + avg_distance2*cos(heading + pi/2);
-        sensor2(2) = location(2) + avg_distance2*sin(heading + pi/2);
-        
         map(i,:) = [location,sensor,heading];
-        if avg_distance2 < 70
-            map2(i,:) = [sensor2];
-        end
         
         bump = bump_measurement();
 
@@ -72,12 +61,8 @@ function [bump,map,map2,i] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,
 
         distmin3 = distmin2;
         distmin2 = distmin1;
-        distmin1 = distance;
-        
-        dist2min3 = dist2min2;
-        dist2min2 = dist2min1;
-        dist2min1 = distance2;
-        
+        distmin1 = distance;    
+
         if toc >= 1 && i > pastnum
             drift = sqrt((map(i-pastnum,1)-map(i-pastnum,3))^2+(map(i-pastnum,2)-map(i-pastnum,4))^2)-sqrt((map(i,1)-map(i,3))^2+(map(i,2)-map(i,4))^2);
              mA.ResetPosition();

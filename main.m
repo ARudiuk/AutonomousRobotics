@@ -9,8 +9,6 @@ mAB = NXTMotor('AB', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 
 l = 5.5;
 %r is the radius of the wheels
 r = 2.8;
-%Initializing a map counter
-i = 1;
 
 position = [0,0];
 map = [];
@@ -29,7 +27,7 @@ end
 meta_goal_completed = 0;
 while(meta_goal_completed == 0)
     for i = 1:4
-        [temp1,map,map2,i] = wall_follow(position,mA,mB,mAB,20,r,l,i);
+        [temp1,map] = wall_follow(position,mA,mB,mAB,20,r,l);
         position = map(end,1:2);
         if temp1 == 1
             temp2 = corner_turn(mAB,mA,mB,l,r);
