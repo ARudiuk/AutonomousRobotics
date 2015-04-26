@@ -52,7 +52,7 @@ function [bump,map] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,l)
         sensor(1) = location(1) + avg_distance*cos(heading - pi/2);
         sensor(2) = location(2) + avg_distance*sin(heading - pi/2);
 
-        map(i,:) = [location,sensor];
+        map(i,:) = [location,sensor,heading];
         
         bump = bump_measurement();
 
@@ -64,7 +64,7 @@ function [bump,map] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,l)
         distmin1 = distance;    
 
         if toc >= 1 && i > pastnum
-            drift = sqrt((map(i-pastnum,1)-map(i-pastnum,3))^2+(map(i-pastnum,2)-map(i-pastnum,4))^2)-sqrt((map(i,1)-map(i,3))^2+(map(i,2)-map(i,4))^2)
+            drift = sqrt((map(i-pastnum,1)-map(i-pastnum,3))^2+(map(i-pastnum,2)-map(i-pastnum,4))^2)-sqrt((map(i,1)-map(i,3))^2+(map(i,2)-map(i,4))^2);
              mA.ResetPosition();
              mB.ResetPosition();   
             if drift > Threshhold                

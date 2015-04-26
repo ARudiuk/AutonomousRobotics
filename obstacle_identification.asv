@@ -1,0 +1,7 @@
+%Compares the location of a scan to determine whether or not an obstacle
+%hsa been identified yet
+
+function [result] = obstacle_identification(map,scan,tolerance)
+error = [map(:,3) - scan(1), map(:,4) - scan(2)];
+[m,n] = size(error)
+for i = 1:size(error)

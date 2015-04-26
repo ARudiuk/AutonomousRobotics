@@ -7,7 +7,7 @@ mAB = NXTMotor('AB', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 
 
 %l is the distance between the wheels halved
 l = 5.5;
-%r is the radiaus of the wheels
+%r is the radius of the wheels
 r = 2.8;
 
 position = [0,0];
