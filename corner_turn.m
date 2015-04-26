@@ -2,7 +2,7 @@
 %place safely
 function [result] = corner_turn(mAB,mA,mB,l,r)
     %Move away from wall in front
-    move(mAB,-30,50);
+    move(mAB,-30,180);
     mAB.WaitFor();
     turn(mA,mB,30,pi/2,l,r)
     mA.WaitFor();
