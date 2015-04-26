@@ -2,9 +2,8 @@
 % if bump occurs, turn 90 and cross the map using the front scan to avoid any obstacles and align heading to parallel with line
 % advance and scan in front of yourself
 % if you detect something that is within a threshhold, treat as an obstacle
-%     call obstacle avoidance
-% if nothing is found, then advance until the location is close to a wall according to the map
-%     
+% call obstacle avoidance
+% if nothing is found, then advance until the location is close to a wall according to the map    
 
 function [result,map,sweepnum] = sweep_for_obstacles(mA,mB,mAB,map)
 

@@ -61,7 +61,7 @@ function [bump,map,map2,i] = wall_follow(position, mA, mB, mAB, dis_from_wall,r,
         sensor2(2) = location(2) + avg_distance2*sin(heading + pi/2);
         
         map(i,:) = [location,sensor,heading];
-        if avg_distance2 < 70
+        if avg_distance2 < 50
             map2(i,:) = [sensor2];
         end
         
