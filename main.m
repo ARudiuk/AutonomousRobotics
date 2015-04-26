@@ -10,8 +10,7 @@ l = 5.5;
 %r is the radiaus of the wheels
 r = 2.8;
 
-position = [0,0];
-map = [];
+map = [0 0 0 0 pi/2];
 goal = [];
 
 %1-Leave Starting Area
@@ -22,16 +21,16 @@ while(meta_goal_completed == 0)
         meta_goal_completed = 1;
     end
 end
-
+%still assume we are pointing in the same direction, and that we are now at
+%0,0
 %2-Map Walls
 meta_goal_completed = 0;
 while(meta_goal_completed == 0)
     for i = 1:4
-        [temp1,map] = wall_follow(position,mA,mB,mAB,20,r,l);
-        position = map(end,1:2);
-        if temp1 == 1
-            temp2 = corner_turn(mAB,mA,mB,l,r);
-            if temp2 == 1
+        [wall_follow_success,map] = wall_follow(map,mA,mB,mAB,r,l,[25,40]);
+        if wall_follow_success == 1
+            [bump_true, map] = corner_turn(map,mAB,mA,mB,l,r);
+            if bump_true == 1
                 meta_goal_completed = 1;
             end
         end
