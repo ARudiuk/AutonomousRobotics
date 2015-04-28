@@ -3,6 +3,9 @@
 function [map] = move_map_update(map,mAB,r,reading)
     if nargin<4
         reading = ultrasonic_measurement();
+        if reading > 100
+            reading = NaN;
+        end
     end
     wheel_turn = mAB.ReadFromNXT().Position;
     mAB.ResetPosition();

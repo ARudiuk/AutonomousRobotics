@@ -1,12 +1,14 @@
-% go along wall to the scan start
-% if bump occurs, turn 90 and cross the map using the front scan to avoid any obstacles and align heading to parallel with line
-% advance and scan in front of yourself
-% if you detect something that is within a threshhold, treat as an obstacle
-%     call obstacle avoidance
-% if nothing is found, then advance until the location is close to a wall according to the map
-%     
+clc;
 
-function [result,map] = sweep_for_obstacles(mA,mB,mAB,map,sweepnum)
+NXT_init();
+
+mA = NXTMotor('A', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
+mB = NXTMotor('B', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
+mAB = NXTMotor('AB', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
+
+map = [0 0 50 50 0];
+
+sweepnum = 1;
 
 threshold = 40;
 
@@ -24,8 +26,9 @@ goal_x = 0;
 goal_y = sweepnum*top_of_map/(num_of_sweeps + 1);
 
 goal = [goal_x,goal_y];
+goal_minus_current = goal - current_location;
 
-[travel_heading,travel_dist] = cart2pol(goal - current_location);
+[travel_heading,travel_dist] = cart2pol(goal_minus_current(1),goal_minus_current(2));
 
 heading_change = travel_heading - current_heading;
  
@@ -48,7 +51,7 @@ map = turn_map_update(map,mA,mB,r,l);
 
 forward_scan = ultrasonic_forward_measurement();
 while forward_scan < threshold
-    move(mAB,30,r,abs(map(end,1) - max(map(:,1));
+    move(mAB,30,r,abs(map(end,1)) - max(map(:,1)));
     map = move_map_update(map,mA,mB,r);
     forward_scan = ultrasonic_forward_measurement();
 end
@@ -63,5 +66,4 @@ elseif id_status == 0
     forward_scan = ultrasonic_forward_measurement;
     [map,~] = map_obstacle(mA,mB,mAB,map,distance_range);
     [map,~] = obstacle_avoidance(mA,mB,mAB,map);
-end
 end

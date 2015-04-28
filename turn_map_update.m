@@ -2,8 +2,8 @@ function [map] = turn_map_update(map,mA,mB,r,l)
     wheel_turn = mA.ReadFromNXT().Position;
     mA.ResetPosition();
     mB.ResetPosition();
-    alpha = (wheel_turn*r*pi)/(l*180)
-    new_heading = map(end,5)+alpha
+    alpha = (wheel_turn*r*pi)/(l*180);
+    new_heading = map(end,5)+alpha;
     while new_heading>2*pi
         new_heading = new_heading-2*pi;
     end
