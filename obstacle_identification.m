@@ -4,7 +4,7 @@
 
 function [result] = obstacle_identification(map,scan,tolerance)
 error = [map(:,3) - scan(1), map(:,4) - scan(2)];
-[~,n] = size(error);
+[n,~] = size(error);
 for i = 1:size(n)
     if abs(error(i,1)<tolerance) && abs(error(i,2)<tolerance)<tolerance
         result = 1;
