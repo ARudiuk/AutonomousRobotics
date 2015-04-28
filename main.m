@@ -1,6 +1,7 @@
 %This is the main body of the NXT controller
 %Initialize a connection to the NXT
 NXT_init();
+tic;
 mA = NXTMotor('A', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
 mB = NXTMotor('B', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
 mAB = NXTMotor('AB', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
@@ -27,9 +28,9 @@ end
 meta_goal_completed = 0;
 while(meta_goal_completed == 0)
     for i = 1:4
-        [wall_follow_success,map] = wall_follow(map,mA,mB,mAB,r,l,[25,40]);
+        [wall_follow_success,map] = wall_follow(map,mA,mB,mAB,r,l,[15,40],i*pi/2);
         if wall_follow_success == 1
-            [bump_true, map] = corner_turn(map,mAB,mA,mB,l,r);
+            [bump_true, map] = corner_turn(map,mAB,mA,mB,l,r,(i+1)*pi/2);
             if bump_true == 1
                 meta_goal_completed = 1;
             end
