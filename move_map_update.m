@@ -9,5 +9,8 @@ function [map] = move_map_update(map,mAB,r,reading)
     rho = (wheel_turn*r*pi)/(180);
     [x,y] = pol2cart(map(end,5),rho);
     map = [map;map(end,1)+x map(end,2)+y map(end,1)+x+reading*cos(map(end,5)-pi/2) map(end,2)+y+reading*sin(map(end,5)-pi/2) map(end,5)];
-    draw(map)
+    if (toc-tic)>1
+        draw(map);
+        tic;
+    end
 end

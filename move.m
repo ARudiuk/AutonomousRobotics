@@ -9,7 +9,10 @@ function [] = move(wheels, power, r, distance)
     wheels.TachoLimit = tacholimit;
     wheels.SendToNXT();
     if tacholimit ~= 0
-        wheels.WaitFor();
+        wheels.WaitFor(1);
+        while abs(wheels.ReadFromNXT().Power)>10
+            wheels.WaitFor(1);
+        end
         wheels.Stop('brake');
     end
 end
