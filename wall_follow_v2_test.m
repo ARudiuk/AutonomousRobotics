@@ -4,7 +4,20 @@
 %make a small adjustment in heading to reallign yourself
 %continue until your bump sensor is triggered
 
-function [bump,map,map2] = wall_follow_v2(map, mA, mB, mAB,r,l,distance_range,wall_angle)
+NXT_init;
+
+mA = NXTMotor('A', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
+mB = NXTMotor('B', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
+mAB = NXTMotor('AB', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 'SmoothStart', true,'TachoLimit',0);
+
+r = 2.8;
+l = 5.5;
+distance_range = [15,30];
+
+map = [0 0 0 0 pi/2];
+map2 = [0 0];
+
+for wall_angle = pi/2:pi/2:2*pi
     power = 40;
     bump = 0;    
     dist_hist = reset_distance_history();
@@ -90,22 +103,4 @@ function [bump,map,map2] = wall_follow_v2(map, mA, mB, mAB,r,l,distance_range,wa
     mA.Stop('brake');
     mB.Stop('brake');
     mAB.Stop('brake');
-end
-
-function dist_hist = update_distance_history(dist_hist)
-    dist_hist(4) = dist_hist(3);
-    dist_hist(3) = dist_hist(2);
-    dist_hist(2) = dist_hist(1);
-    dist_hist(1) = ultrasonic_measurement();
-end
-
-function dist_hist = reset_distance_history()
-    dist_hist = [];
-    dist_hist(1) = ultrasonic_measurement();
-    pause(0.5);
-    dist_hist(2) = ultrasonic_measurement();
-    pause(0.5);
-    dist_hist(3) = ultrasonic_measurement();
-    pause(0.5);
-    dist_hist(4) = ultrasonic_measurement();
 end
