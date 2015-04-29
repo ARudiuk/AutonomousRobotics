@@ -17,8 +17,14 @@ distance_range = [15,30];
 map = [0 0 0 0 pi/2];
 map2 = [0 0];
 
+bump = bump_measurement();
+
 for wall_angle = pi/2:pi/2:2*pi
-    power = 40;
+    if bump == 1
+        [result,map] = corner_turn(map,mAB,mA,mB,l,r,wall_angle);
+    end
+    
+    power = 25;
     bump = 0;    
     dist_hist = reset_distance_history();
     mA.ResetPosition();
