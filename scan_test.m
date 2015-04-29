@@ -5,7 +5,16 @@ mAB = NXTMotor('AB', 'SpeedRegulation', false,'ActionAtTachoLimit','Holdbrake', 
 
 r = 2.8;
 l = 5.5;
-map = [-50,80,0,0,3.14];
+
+map = [0 0 0 0 pi/2];
+
+move(mAB,30,r,80);
+map = move_map_update(map,mAB,r);
+turn(mA,mB,turn_power,pi/2,l,r);
+map = turn_map_update(map,mA,mB,r,l);
+move(mAB,30,r,50);
+map = move_map_update(map,mAB,r);
+
 goal = [0 0];
 forward_threshold = 25;
 goal_threshold = 35;
@@ -32,23 +41,20 @@ while status == 0
         forward_scan = ultrasonic_forward_measurement();
         map = move_map_update(map,mAB,r);
     end
-    pause(0.2);
-    goal_flag = [map(:,1) - goal(1), map(:,2) - goal(2)];
-    [n,~] = size(goal_flag);
-    for goal_counter = 1:size(n)
-        if abs(goal_flag(goal_counter,1)<goal_threshold) && abs(goal_flag(goal_counter,2)<goal_threshold)
-            status = 1
-        else
-            status = 0;
-        end
+    pause(0.1);
+    goal_flag = [map(end,1) - goal(1), map(end,2) - goal(2)];
+    if abs(goal_flag(1))<goal_threshold && abs(goal_flag(2))<goal_threshold
+        status = 1
+    else
+        status = 0;
     end
     
     if status == 0
+        [heading_to_goal,distance_to_goal] = cart2pol((goal(1) - map(end,1)),(goal(2) - map(end,2)));
         for j = 1:360/orientation_resolution
             turn(mA,mB,turn_power,-orientation_resolution*pi/180,l,r);
             map = turn_map_update(map,mA,mB,r,l);
-            pause(0.2);
-            [heading_to_goal,distance_to_goal] = cart2pol((goal(1) - map(end,1)),(goal(2) - map(end,2)));
+            pause(0.1);
             distance(j) = ultrasonic_forward_measurement();
             if distance(j) > forward_threshold
                 possible_directions(j) = heading_to_goal - map(end,5);
@@ -62,8 +68,11 @@ while status == 0
                 possible_directions(j) = inf;
             end
         end
+        possible_directions
         %select route which has a heading most similar to the goal heading
-        goal_heading = min(abs(possible_directions));
+        [goal_heading,min_index] = min(abs(possible_directions));
+        sgn = sign(possible_directions(min_index));
+        goal_heading = sgn*goal_heading;
         turn(mA,mB,turn_power,goal_heading,l,r);
         map = turn_map_update(map,mA,mB,r,l);
     end
@@ -74,7 +83,7 @@ while status == 1
         for j = 1:360/orientation_resolution
             turn(mA,mB,turn_power,-orientation_resolution*pi/180,l,r);
             map = turn_map_update(map,mA,mB,r,l);
-            pause(0.2);
+            pause(0.1);
             distance(j) = ultrasonic_forward_measurement();
         end
         
@@ -90,17 +99,20 @@ while status == 1
         wall_heading = dir - map(end,5);
         turn(mA,mB,turn_power,wall_heading,l,r);
         map = turn_map_update(map,mA,mB,r,l);
-        move(mAB,30);
+        move(mAB,30,r,15);
         map = move_map_update(map,mAB,r,NaN);
         bump = bump_measurement();
     end
+    move(mAB,-30,r,10);
+    map = move_map_update(map,mAB,r,NaN);
     right_side_scan = ultrasonic_measurement();
     if right_side_scan < goal_threshold
         turn(mA,mB,turn_power,-pi/2,l,r);
         map = turn_map_update(map,mA,mB,r,l);
         move(mAB,30,r,goal_threshold);
+        move(mAB,-30,r,10);
         map = move_map_update(map,mAB,r,NaN);
-        turn(mA,mB,turn_power,pi,l,r);
+        turn(mA,mB,turn_power,-pi,l,r);
         map = turn_map_update(map,mA,mB,r,l);
         status = 2;
     
@@ -108,6 +120,7 @@ while status == 1
         turn(mA,mB,turn_power,pi/2,l,r);
         map = turn_map_update(map,mA,mB,r,l);
         move(mAB,30,r,goal_threshold);
+        move(mAB,-30,r,10);
         map = move_map_update(map,mAB,r,NaN);
         turn(mA,mB,turn_power,pi,l,r);
         map = turn_map_update(map,mA,mB,r,l);

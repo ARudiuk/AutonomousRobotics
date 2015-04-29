@@ -1,6 +1,7 @@
 %update map based on the assumption we are moving forward
 %can optionally pass in an ultrasonic reading if one was already taken 
 function [map] = move_map_update(map,mAB,r,reading)
+tic;
     if nargin<4
         reading = ultrasonic_measurement();
         if reading > 100

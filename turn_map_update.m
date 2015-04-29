@@ -4,13 +4,9 @@ function [map] = turn_map_update(map,mA,mB,r,l,round)
     mB.ResetPosition();
     alpha = (wheel_turn*r*pi)/(l*180);
     new_heading = map(end,5)+alpha;
-<<<<<<< HEAD
-=======
     if nargin == 6
         new_heading = round;
-        
     end
->>>>>>> origin/master
     while new_heading>2*pi
         new_heading = new_heading-2*pi;
     end
