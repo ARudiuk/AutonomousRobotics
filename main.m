@@ -12,7 +12,7 @@ l = 5.5;
 r = 2.8;
 
 map = [0 0 0 0 pi/2];
-goal = [];
+map2 = [0 0];
 
 %1-Leave Starting Area
 meta_goal_completed = 0;
@@ -26,17 +26,17 @@ end
 %0,0
 %2-Map Walls
 meta_goal_completed = 0;
-while(meta_goal_completed == 0)
-    for i = 1:4
-        [wall_follow_success,map] = wall_follow(map,mA,mB,mAB,r,l,[15,40],i*pi/2);
-        if wall_follow_success == 1
-            [bump_true, map] = corner_turn(map,mAB,mA,mB,l,r,(i+1)*pi/2);
-            if bump_true == 1
-                meta_goal_completed = 1;
-            end
+i = 1;
+while(meta_goal_completed == 0)    
+    [wall_follow_success,map,map2] = wall_follow(map,map2,mA,mB,mAB,r,l,[15,30],i*pi/2);
+    if wall_follow_success == 1
+        [bump_true, map] = corner_turn(map,map2,mAB,mA,mB,l,r,(i+1)*pi/2);
+        if map(end,2)<=-20
+            meta_goal_completed = 1;
         end
+        i = i+1;
     end
-end
+ end
 
 % %3-Map Inner Area
 % meta_goal_completed = 0;
